@@ -29,14 +29,14 @@ void print_time_stats() {
 }
 
 void guess_correct(int sig) {
-    printf("\n🎉 Процесс [%d] угадал число %d за %d попыток!\n", getpid(), secret_number, attempts);
+    printf("\n Процесс [%d] угадал число %d за %d попыток!\n", getpid(), secret_number, attempts);
     print_time_stats();
     round_finished = 1;
     exit(0);
 }
 
 void guess_incorrect(int sig) {
-    printf("❌ Процесс [%d]: Не угадано!\n", getpid());
+    printf(" Процесс [%d]: Не угадано!\n", getpid());
 }
 
 void handle_guess(int sig, siginfo_t *info, void *context) {
@@ -79,7 +79,7 @@ void make_guess() {
 }
 
 void play_guesser() {
-    printf("\n🔄 Процесс [%d] начал угадывать число\n", getpid());
+    printf("\n Процесс [%d] начал угадывать число\n", getpid());
     
     signal(SIGUSR1, guess_correct);
     signal(SIGUSR2, guess_incorrect);
@@ -107,7 +107,7 @@ void play_hider(int N) {
     round_finished = 0;
     
     printf("\n=== Раунд %d ===\n", current_round);
-    printf("🔢 Процесс [%d] загадал число от 1 до %d\n", getpid(), N);
+    printf(" Процесс [%d] загадал число от 1 до %d\n", getpid(), N);
     gettimeofday(&start_time, NULL);
     
     signal(SIGALRM, make_guess);
@@ -118,7 +118,7 @@ void play_hider(int N) {
     }
 
     if (!round_finished) {
-        printf("\n⌛ Процесс [%d] не угадал число %d за 10 попыток!\n", guessing_pid, secret_number);
+        printf("\n Процесс [%d] не угадал число %d за 10 попыток!\n", guessing_pid, secret_number);
         print_time_stats();
     }
 }
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
     high = N;
     srand(time(NULL));
 
-    printf("🛠 Главный процесс [%d] запустил игру\n", getpid());
+    printf(" Главный процесс [%d] запустил игру\n", getpid());
 
     while (current_round < total_rounds) {
         current_round++;
@@ -173,6 +173,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    printf("\n🏁 Главный процесс [%d] завершил игру. Сыграно %d раундов.\n", getpid(), total_rounds);
+    printf("\n Главный процесс [%d] завершил игру. Сыграно %d раундов.\n", getpid(), total_rounds);
     return 0;
 }
